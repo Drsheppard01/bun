@@ -80,7 +80,7 @@ esac
 
 case "$target" in
 'linux'*)
-    if [ -f /etc/alpine-release ]; then
+    if (ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1); then
         target="$target-musl"
     fi
     ;;
