@@ -2,6 +2,8 @@
 set -euo pipefail
 
 platform=$(uname -ms)
+libc=$(ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1)
+
 
 if [[ ${OS:-} = Windows_NT ]]; then
   if [[ $platform != MINGW64* ]]; then
@@ -80,9 +82,9 @@ esac
 
 case "$target" in
 'linux'*)
-    if (ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1); then
-        target="$target-musl"
-    fi
+if [ $libc = "/lib/ld-musl-x86_64.so.1" ]; then
+    target="$target-musl"
+fi
     ;;
 esac
 
