@@ -80,7 +80,7 @@ esac
 
 case "$target" in
 'linux'*)
-    if [ -f /etc/alpine-release ]; then
+     if [ '$libc' = "/lib/ld-musl-x86_64.so.1" ]; then
         target="$target-musl"
     fi
     ;;
